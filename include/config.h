@@ -44,7 +44,7 @@ THE SOFTWARE.
 #ifdef VERSION_STR
     #define PRODUCT_APPEND_STR " " VERSION_STR
 #else
-    #define PRODUCT_APPEND_STR ""
+    #define PRODUCT_APPEND_STR
 #endif
 
 #if BOARD == BOARD_candleLight
