@@ -38,11 +38,17 @@ THE SOFTWARE.
 #define BOARD_cantact     2
 #define BOARD_canable     3
 #define BOARD_usb2can     4
-#define BOARD_canalyze     5
+#define BOARD_canalyze    5
 #define BOARD_cannette    6
 
+#ifdef VERSION_STR
+    #define PRODUCT_APPEND_STR " " VERSION_STR
+#else
+    #define PRODUCT_APPEND_STR
+#endif
+
 #if BOARD == BOARD_candleLight
-	#define USBD_PRODUCT_STRING_FS		(uint8_t*) "candleLight USB to CAN adapter"
+	#define USBD_PRODUCT_STRING_FS		(uint8_t*) ("candleLight USB to CAN adapter" PRODUCT_APPEND_STR)
 	#define USBD_MANUFACTURER_STRING	(uint8_t*) "bytewerk"
 	#define DFU_INTERFACE_STRING_FS		(uint8_t*) "candleLight firmware upgrade interface"
 	#define CAN_S_Pin GPIO_PIN_13
@@ -59,7 +65,7 @@ THE SOFTWARE.
 	#define LED2_Active_High 0
 
 #elif BOARD == BOARD_cantact
-	#define USBD_PRODUCT_STRING_FS		(uint8_t*) "cantact gs_usb"
+	#define USBD_PRODUCT_STRING_FS		(uint8_t*) ("cantact gs_usb" PRODUCT_APPEND_STR)
 	#define USBD_MANUFACTURER_STRING	(uint8_t*) "cantact.io"
 	#define DFU_INTERFACE_STRING_FS		(uint8_t*) "cantact firmware upgrade interface"
 
@@ -76,7 +82,7 @@ THE SOFTWARE.
 	#define LED2_Active_High 1
 
 #elif BOARD == BOARD_canable
-	#define USBD_PRODUCT_STRING_FS			(uint8_t*) "canable gs_usb"
+	#define USBD_PRODUCT_STRING_FS			(uint8_t*) ("canable gs_usb" PRODUCT_APPEND_STR)
 	#define USBD_MANUFACTURER_STRING		(uint8_t*) "canable.io"
 	#define DFU_INTERFACE_STRING_FS			(uint8_t*) "canable firmware upgrade interface"
 
@@ -93,7 +99,7 @@ THE SOFTWARE.
 	#define LED2_Active_High 0
 
 #elif BOARD == BOARD_usb2can
-	#define USBD_PRODUCT_STRING_FS		(uint8_t*) "USB2CAN RCA gs_usb"
+	#define USBD_PRODUCT_STRING_FS		(uint8_t*) ("USB2CAN RCA gs_usb" PRODUCT_APPEND_STR)
 	#define USBD_MANUFACTURER_STRING	(uint8_t*) "Roboter Club Aachen"
 	#define DFU_INTERFACE_STRING_FS		(uint8_t*) "usb2can firmware upgrade interface"
 
@@ -119,7 +125,7 @@ THE SOFTWARE.
 	#define LED1_Mode GPIO_MODE_OUTPUT_OD
 	#define LED1_Active_High 0
 #elif BOARD == BOARD_canalyze
-	#define USBD_PRODUCT_STRING_FS		(uint8_t*) "CANAlyze gs_usb"
+	#define USBD_PRODUCT_STRING_FS		(uint8_t*) ("CANAlyze gs_usb" PRODUCT_APPEND_STR)
 	#define USBD_MANUFACTURER_STRING	(uint8_t*) "STMicroelectronics"
 	#define DFU_INTERFACE_STRING_FS		(uint8_t*) "CANAlyze firmware upgrade interface"
 
@@ -136,7 +142,7 @@ THE SOFTWARE.
 	#define LED2_Active_High 1
 
 #elif BOARD == BOARD_cannette
-	#define USBD_PRODUCT_STRING_FS			(uint8_t*) "cannette gs_usb"
+	#define USBD_PRODUCT_STRING_FS			(uint8_t*) ("cannette gs_usb" PRODUCT_APPEND_STR)
 	#define USBD_MANUFACTURER_STRING		(uint8_t*) "chacaltech"
 	#define DFU_INTERFACE_STRING_FS			(uint8_t*) "cannette firmware upgrade interface"
 
