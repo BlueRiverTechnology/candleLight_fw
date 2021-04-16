@@ -111,8 +111,9 @@ endfunction()
 # Split into two categories, F042-based and F072-based.
 
 function(add_f042_target TGTNAME)
-    execute_process(
-        COMMAND git -C ${CMAKE_CURRENT_BINARY_DIR} log -1 --format=%h
+  execute_process(
+        COMMAND bash -c "echo $(date -u +'%Y%m%d%H%M%S')-$(git -C ${CMAKE_CURRENT_BINARY_DIR} log -1 --format=%h)"
+        VERBATIM
         OUTPUT_VARIABLE versionStr
         OUTPUT_STRIP_TRAILING_WHITESPACE
     )
@@ -129,7 +130,8 @@ endfunction()
 
 function(add_f072_target TGTNAME)
     execute_process(
-        COMMAND git -C ${CMAKE_CURRENT_BINARY_DIR} log -1 --format=%h
+        COMMAND bash -c "echo $(date -u +'%Y%m%d%H%M%S')-$(git -C ${CMAKE_CURRENT_BINARY_DIR} log -1 --format=%h)"
+        VERBATIM
         OUTPUT_VARIABLE versionStr
         OUTPUT_STRIP_TRAILING_WHITESPACE
     )
