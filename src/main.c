@@ -109,10 +109,40 @@ int main(void)
 	HAL_GPIO_WritePin(CAN_S_GPIO_Port, CAN_S_Pin, GPIO_PIN_RESET);
 #endif
 
+	int done_once = 0;
+	int send_again = 0;
+	uint16_t tx_drop = 0;
+	uint16_t rx_drop = 0;
+	uint32_t i = 0;
+	struct gs_host_frame golden_frame;
 	while (1) {
 		struct gs_host_frame *frame = queue_pop_front(q_from_host);
+		if (send_again && frame == 0) {
+			frame = queue_pop_front(q_frame_pool);
+			i++;
+			if (frame) {
+				memcpy(frame, &golden_frame, sizeof(golden_frame));
+				frame->data[0] = 0;
+				frame->data[1] = tx_drop >> 8;
+				frame->data[2] = tx_drop;
+				frame->data[3] = rx_drop >> 8;
+				frame->data[4] = rx_drop;
+				frame->data[5] = i >> 16;
+				frame->data[6] = i >> 8;
+				frame->data[7] = i;
+				send_again = 0;
+			} else {
+				tx_drop++;
+			}
+		}
 		if (frame != 0) { // send can message from host
+			if (!done_once) {
+				done_once = 1;
+				send_again = 1;
+				memcpy(&golden_frame, frame, sizeof(golden_frame));
+			}
 			if (can_send(&hCAN, frame)) {
+				send_again = 1;
 				// Echo sent frame back to host
 				frame->timestamp_us = timer_get();
 				send_to_host_or_enqueue(frame);
@@ -148,6 +178,8 @@ int main(void)
 				{
 					queue_push_back(q_frame_pool, frame);
 				}
+			} else {
+				rx_drop++;
 			}
 			// If there are frames to receive, don't report any error frames. The
 			// best we can localize the errors to is "after the last successfully
